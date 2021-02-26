@@ -1,4 +1,4 @@
 export default function HomePage () {
 
-	return (<h1>Vietnamese Text Corpora</h1>)
+	return (<h3>Vietnamese Text Corpora</h3>)
 }

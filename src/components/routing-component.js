@@ -1,13 +1,15 @@
 import {  Switch,  Route } from "react-router-dom";
-import Home from '../pages/home-page';
-
+import HomePage from '../pages/home-page';
+import AuthorPage from '../pages/author-page';
 
 export default function RoutingComponent()  {
     
     return (
       <Switch>
 
-        <Route path="/" component={Home} />
+        <Route path="/authors" component={AuthorPage} />
+        <Route path="/" component={HomePage} />
+        
         
       </Switch>
 

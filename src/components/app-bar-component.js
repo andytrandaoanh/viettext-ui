@@ -8,8 +8,16 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import Button from '@material-ui/core/Button';
 import { Link as RouterLink } from 'react-router-dom';
+import clsx from 'clsx';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import HomeIcon from '@material-ui/icons/Home';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -64,14 +72,29 @@ const useStyles = makeStyles((theme) => ({
         width: '20ch',
       },
     },
+    list: {
+      width: 250,
+    },
+    fullList: {
+      width: 'auto',
+    },
   },
+  
 }));
+
+
+
+
+
+
 
 export default function TopAppBar() {
   const classes = useStyles();
   const history = useHistory();
   const [searchString, setSearchString] = useState(null);
-  
+  const [showMenu, setShowMenu] = useState(false);
+
+
   const handleChange = (event) => {
     
       const search_string = String(event.target.value);
@@ -84,12 +107,37 @@ export default function TopAppBar() {
 
       if (event.key === 'Enter') {
           //console.log({'search string': searchString});         
-          history.push(`/search/${searchString}`);
+          history.push(`/terms/search/${searchString}`);
           event.preventDefault();
       }
   } 
 
+  const listMenuItems = (anchor) => (
+    <div
+      className={clsx(classes.list, {
+        [classes.fullList]: anchor === 'top' || anchor === 'bottom',
+      })}
+      role="presentation"
+      onClick={()=>setShowMenu(false)}
+      onKeyDown={()=>setShowMenu(false)}
+    >
+      <List>
+        <ListItem button key="menu-item-home" component={RouterLink} to="/home">
+            <ListItemIcon><HomeIcon /></ListItemIcon>
+            <ListItemText primary="Home" />
+        </ListItem>
 
+      </List>
+      <Divider />
+      <List>
+        <ListItem button key="menu-item-authors" component={RouterLink} to="/authors">
+              <ListItemIcon><PeopleAltIcon /></ListItemIcon>
+              <ListItemText primary="Maintain Authors" />
+        </ListItem>        
+      </List>
+    </div>
+  );
+  
 
   return (
     <div className={classes.root}>
@@ -100,7 +148,7 @@ export default function TopAppBar() {
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
-            component={RouterLink} to="/home"
+            onClick= {() => setShowMenu(true)}
           >
             <MenuIcon />
           </IconButton>
@@ -127,9 +175,11 @@ export default function TopAppBar() {
               
             />
           </div>
-          <Button color="inherit" component={RouterLink} to="/upload">Add</Button>
-          <Button color="inherit" component={RouterLink} to="/list">List</Button>
+        
         </Toolbar>
+        <Drawer anchor="left" open={showMenu} onClose = {()=>setShowMenu(false)}>
+            {listMenuItems("left")}
+        </Drawer>
       </AppBar>
                   
       </div>
