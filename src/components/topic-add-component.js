@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import { AUTHORS_URL } from './api-config.js';
+import { TOPICS_URL } from './api-config.js';
 import styled from 'styled-components';
 
 
@@ -205,10 +205,9 @@ input[type=text], select, textarea{
 
 
 
-const AuthorAddComponent = () => {
-  const [name, setName] = useState('');  
+const TopicAddComponent = () => {
+  const [description, setDescription] = useState('');  
   const [sortCode, setSortCode] = useState('');  
-  const [type, setType] = useState('person');  
   const [updateMessage, setUpdateMessage] = useState(null);
 
     const sendPostRequest = async (newData) => {
@@ -217,7 +216,7 @@ const AuthorAddComponent = () => {
         //ready to send to API using Axios
         //console.log(newTerm);
         try {
-          const resp = await axios.post(AUTHORS_URL, newData);
+          const resp = await axios.post(TOPICS_URL, newData);
           console.log(resp.data);
           setUpdateMessage('Data sucessfully written to the database!');
           //history.push(`/home`);
@@ -235,9 +234,8 @@ const AuthorAddComponent = () => {
         event.preventDefault();
         
         const newData = {
-          name: name,
-          sort_code: sortCode,
-          type: (type === 'person') ? 0 : 1
+          description: description,
+          sort_code: sortCode
         };
         
         //console.log(newData);
@@ -254,14 +252,14 @@ const AuthorAddComponent = () => {
 
         <div className="row">
           <div className="col-25">
-            <label>Author Name</label>
+            <label>Topic Description</label>
           </div>
           <div className="col-75">
             <input 
               type="text" 
-              id = "name"
-              value={name} 
-              onChange={(event)=>setName(event.target.value)}
+              id = "description"
+              value={description} 
+              onChange={(event)=>setDescription(event.target.value)}
               />
           </div>
         </div>
@@ -278,26 +276,6 @@ const AuthorAddComponent = () => {
               onChange={(event)=>setSortCode(event.target.value)}
               />
           </div>
-        </div>
-
-        <div className="row">
-          <div className="col-25">
-            <label>Type</label>
-          </div>
-          <div className="col-75">
-          <label className="radio-box">Person
-            <input type="radio"  name="type" value="person" checked={true}
-            onChange={(event)=>setType(event.target.value)}
-            />
-            <span className="radio-mark"></span>
-          </label>  
-          <label className="radio-box">Association
-            <input type="radio"  name="type"  value="association"
-            onChange={(event)=>setType(event.target.value)}
-            />
-            <span className="radio-mark"></span>
-          </label>  
-          </div>     
         </div>
 
 
@@ -318,4 +296,4 @@ const AuthorAddComponent = () => {
     );
   };
 
-  export default AuthorAddComponent;
+  export default TopicAddComponent;

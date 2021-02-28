@@ -18,6 +18,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
+import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -133,7 +135,15 @@ export default function TopAppBar() {
         <ListItem button key="menu-item-authors" component={RouterLink} to="/authors">
               <ListItemIcon><PeopleAltIcon /></ListItemIcon>
               <ListItemText primary="Maintain Authors" />
-        </ListItem>        
+        </ListItem>   
+        <ListItem button key="menu-item-genres" component={RouterLink} to="/genres">
+              <ListItemIcon><LibraryBooksIcon /></ListItemIcon>
+              <ListItemText primary="Maintain Genres" />
+        </ListItem>         
+        <ListItem button key="menu-item-topics" component={RouterLink} to="/topics">
+              <ListItemIcon><CenterFocusStrongIcon /></ListItemIcon>
+              <ListItemText primary="Maintain Topics" />
+        </ListItem>   
       </List>
     </div>
   );

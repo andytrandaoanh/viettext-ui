@@ -1,6 +1,6 @@
 import React, { Fragment,  useState, useEffect } from 'react';
 import axios from 'axios';
-import { AUTHORS_URL } from './api-config.js';
+import { TOPICS_URL } from './api-config.js';
 import styled from 'styled-components';
 import moment from 'moment';
 import { AiFillEdit } from 'react-icons/ai';
@@ -172,8 +172,7 @@ const handleClick = (event, id)=>{
    <table className="data-grid">
      <thead>
      <tr>
-       <th>Name</th>
-       <th>Type</th>
+       <th>Description</th>
        <th>Status</th>
        <th>Date</th>
        <th>Action</th>
@@ -184,8 +183,7 @@ const handleClick = (event, id)=>{
 
      {data.map(row =>(
       <tr>
-        <td>{row.name}</td>
-        <td>{row.type}</td>
+        <td>{row.description}</td>
         <td>{row.status}</td>
         <td>{moment(row.created_at).format('DD/MM/YYYY')}</td>
         <td><button className="data-button" onClick={(event)=>handleClick(event, row.id)}><AiFillEdit /></button></td>
@@ -199,13 +197,12 @@ const handleClick = (event, id)=>{
 }
 
 
-const AuthorEditComponent = () => {
+const TopicEditComponent = () => {
   const [listData, setListData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [authorId, setAuthorId] = useState();
-  const [authorName, setAuthorName] = useState('');
-  const [authorType, setAuthorType] = useState('person');
+  const [topicId, setTopicId] = useState();
+  const [description, setDescription] = useState('');
   const [sortCode, setSortCode] = useState('');
   const [statusCheck, setStatusCheck] = useState(false);
   const [updateCount, setUpdateCount] = useState(0);
@@ -215,7 +212,7 @@ const AuthorEditComponent = () => {
     
 
     try {
-      const resp = await axios.put(`${AUTHORS_URL}/${authorId}`, newData);
+      const resp = await axios.put(`${TOPICS_URL}/${topicId}`, newData);
       console.log(resp.data);
       setUpdateMessage('Data sucessfully written to the database!');   
       setUpdateCount(updateCount + 1);
@@ -232,9 +229,8 @@ const AuthorEditComponent = () => {
 
   const handleSubmit = () =>{
     const newData = {
-      name: authorName,      
+      description: description,      
       sort_code: sortCode,
-      type: authorType === 'person' ? 0 : 1,
       status: statusCheck ? 1 : 0
 
     };
@@ -246,13 +242,12 @@ const AuthorEditComponent = () => {
 
   const tableClick = (selectId) => {
     console.log('user select id: ', selectId);
-    setAuthorId(selectId);
+    setTopicId(selectId);
     listData.forEach(item =>{
       if (item.id === selectId) {
-        setAuthorName(item.name);
+        setDescription(item.description);
         setSortCode(item.sort_code);
         setStatusCheck(item.status === 0 ? false : true);
-        setAuthorType(item.type === 0 ? 'person' : 'association');
         setUpdateMessage(null);
 
         }
@@ -266,7 +261,7 @@ const AuthorEditComponent = () => {
       setIsLoading(true);
 
     try {
-        const result = await axios.get(AUTHORS_URL);
+        const result = await axios.get(TOPICS_URL);
         console.log(result.data);
         setListData(result.data);
         setIsLoading(false);
@@ -297,10 +292,10 @@ const AuthorEditComponent = () => {
              
               <input 
                 type="text" 
-                id="author_name"  
-                placeholder="author name"
-                value={authorName}
-                onChange={(event)=>setAuthorName(event.target.value)}
+                id="description"  
+                placeholder="description"
+                value={description}
+                onChange={(event)=>setDescription(event.target.value)}
               
               />
              
@@ -313,11 +308,6 @@ const AuthorEditComponent = () => {
               
               />
 
-              
-              <select id="type" value={authorType} onChange={(event)=>setAuthorType(event.target.value)}>
-                <option value="person">0 - Person</option>
-                <option value="association">1 - Association</option>                  
-              </select>
               
               
               <label className="check-box">Disabled
@@ -347,4 +337,4 @@ const AuthorEditComponent = () => {
     );
   };
 
-  export default AuthorEditComponent;
+  export default TopicEditComponent;
