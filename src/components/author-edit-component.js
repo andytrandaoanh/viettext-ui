@@ -172,6 +172,7 @@ const handleClick = (event, id)=>{
    <table className="data-grid">
      <thead>
      <tr>
+      <th>ID</th>
        <th>Name</th>
        <th>Type</th>
        <th>Status</th>
@@ -184,6 +185,7 @@ const handleClick = (event, id)=>{
 
      {data.map(row =>(
       <tr>
+        <td>{row.id}</td>
         <td>{row.name}</td>
         <td>{row.type}</td>
         <td>{row.status}</td>

@@ -172,6 +172,7 @@ const handleClick = (event, id)=>{
    <table className="data-grid">
      <thead>
      <tr>
+       <th>ID</th>
        <th>Description</th>
        <th>Status</th>
        <th>Date</th>
@@ -183,6 +184,7 @@ const handleClick = (event, id)=>{
 
      {data.map(row =>(
       <tr>
+        <td>{row.id}</td>
         <td>{row.description}</td>
         <td>{row.status}</td>
         <td>{moment(row.created_at).format('DD/MM/YYYY')}</td>
