@@ -4,6 +4,8 @@ import AuthorPage from '../pages/author-page';
 import GenrePage from '../pages/genre-page';
 import TopicPage from '../pages/topic-page';
 import WorkPage from '../pages/work-page';
+import WorkAuthorPage from '../pages/work-author-page';
+import WorkContentPage from '../pages/work-content-page';
 import ChapterPage from '../pages/chapter-page';
 
 export default function RoutingComponent()  {
@@ -15,7 +17,10 @@ export default function RoutingComponent()  {
         <Route path="/genres" component={GenrePage} />
         <Route path="/chapters" component={ChapterPage} />
         <Route path="/topics" component={TopicPage} />
+        <Route path="/worksbyauthor/:id" component={WorkAuthorPage} />
+        <Route path="/workcontent/:id" component={WorkContentPage} />
         <Route path="/works" component={WorkPage} />
+
         <Route path="/" component={HomePage} />
         
         

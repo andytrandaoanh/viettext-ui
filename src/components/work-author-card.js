@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
-import { AUTHORS_URL  } from './api-config.js';
+import { WORKS_URL  } from './api-config.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,16 +25,16 @@ const useStyles = makeStyles((theme) => ({
   pos: {
     marginBottom: 12,
   },
-  authorcard: {
+  workcard: {
     margin: 5,
   },
 
 }));
 
-export default function AuthorCards() {
+export default function WorkAuthorCards(props) {
   const classes = useStyles();
   
-  const [authorData, setAuthorData] = useState([]);
+  const [workData, setWorkData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   
@@ -45,8 +45,8 @@ export default function AuthorCards() {
       setIsLoading(true);
 
       try {
-        const result = await axios(AUTHORS_URL);        
-        setAuthorData(result.data);        
+        const result = await axios(`${WORKS_URL}/search?authorid=${props.id}`);        
+        setWorkData(result.data);        
         //console.log('result', result);
         setIsLoading(false);
  
@@ -68,22 +68,25 @@ export default function AuthorCards() {
     
 
     <Grid container spacing={3}>
-        {authorData && authorData.length > 0  ?  authorData.map(author => (
-            <Grid item key={author.id} xs={12} sm={6} md={3}>
-            <Card className={classes.authorcard}>
+        {workData && workData.length > 0  ?  workData.map(work => (
+            <Grid item key={work.id} xs={12} sm={6} md={3}>
+            <Card className={classes.workcard}>
             <CardContent>
               <Typography className={classes.title} color="textSecondary" gutterBottom>
-                recently added author
+                {work.author_name}
               </Typography>
               <Typography variant="h5" component="h2">
-                {author.name}
+                {work.title}
               </Typography>
-              <Typography className={classes.pos} color="textSecondary">
-                {author.type === 0 ? <span>Individual</span> : <span>Association</span>}
+              <Typography className={classes.title} color="textSecondary" gutterBottom>
+                {work.genre_name}
+              </Typography>
+              <Typography variant="body2" component="p">
+                {work.signature}
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" component={RouterLink} to={`/worksbyauthor/${author.id}`}>List Works</Button>
+              <Button size="small" component={RouterLink} to={`/workcontent/${work.id}`}>Show Work</Button>
             </CardActions>
           </Card>
         </Grid>
