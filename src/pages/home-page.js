@@ -1,4 +1,6 @@
+import AuthorCardComponent from '../components/author-card-component';
+
 export default function HomePage () {
 
-	return (<h3>Vietnamese Text Corpora</h3>)
+	return (<AuthorCardComponent />)
 }

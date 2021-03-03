@@ -9,7 +9,7 @@ const Styles = styled.div`
     border-radius: 5px;
     background-color: #f2f2f2;
     padding: 20px;
-    width: 50%;
+    width: 90%;
     margin: auto;
    
   }
@@ -24,20 +24,20 @@ const Styles = styled.div`
 
 .col-25 {
   float: left;
-  width: 35%;
+  width: 25%;
   margin-top: 6px;
 }
 
 
 .col-75 {
   float: left;
-  width: 65%;
+  width: 75%;
   margin-top: 6px;
 }
 
 
 input[type=text], select, textarea {
-    width: 60%;
+    width: 100%;
     padding: 6px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -309,6 +309,7 @@ const ChapterAddComponent = () => {
           <div className="col-75">
             <textarea               
               id = "content"
+              rows = "8"
               value={content} 
               onChange={(event)=>setContent(event.target.value)}
               />

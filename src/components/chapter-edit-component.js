@@ -1,6 +1,6 @@
 import React, { Fragment,  useState, useEffect } from 'react';
 import axios from 'axios';
-import { GENRES_URL, TOPICS_URL, WORKS_URL, AUTHORS_URL } from './api-config.js';
+import { CHAPTERS_URL, WORKS_URL } from './api-config.js';
 import styled from 'styled-components';
 import moment from 'moment';
 import { AiFillEdit } from 'react-icons/ai';
@@ -11,13 +11,13 @@ const Styles = styled.div`
 
 .grid-column-large {
   float: left;
-  width: 65%;
+  width: 50%;
 
 }
 
 .grid-column-small {
     float: left;
-    width: 35%;
+    width: 50%;
  }
 
   
@@ -68,7 +68,7 @@ form.data-form {
   padding: 0px 20px;
 }
 
-form.data-form input[type=text], select {
+form.data-form input[type=text], select , textarea{
   width: 100%;
   padding: 10px;
   margin: 8px 0;
@@ -180,13 +180,9 @@ const handleClick = (event, id)=>{
      <thead>
      <tr>
        <th>ID</th>
-       <th>Title</th>
-       <th>Author</th>
-       <th>Genre</th>
-       <th>Topic</th>
-       <th>Signature</th>
-       <th>Published</th>
-       <th>Notes</th>
+       <th>Work</th>
+       <th>Note</th>
+       <th>Serial</th>
        <th>Status</th>
        <th>Date</th>
        <th>Action</th>
@@ -198,13 +194,9 @@ const handleClick = (event, id)=>{
      {data.map(row =>(
       <tr>
         <td>{row.id}</td>
-        <td>{row.title}</td>        
-        <td>{row.author_id}</td>
-        <td>{row.genre_id}</td>
-        <td>{row.topic_id}</td>
-        <td>{row.signature}</td>
-        <td>{row.published_year}</td>
-        <td>{row.notes}</td>
+        <td>{row.work_id}</td>        
+        <td>{row.note}</td>
+        <td>{row.serial}</td>
         <td>{row.status}</td>
         <td>{moment(row.created_at).format('DD/MM/YYYY')}</td>
         <td><button className="data-button" onClick={(event)=>handleClick(event, row.id)}><AiFillEdit /></button></td>
@@ -218,34 +210,26 @@ const handleClick = (event, id)=>{
 }
 
 
-const WorkEditComponent = () => {
+const ChapterEditComponent = () => {
   const [listData, setListData] = useState([]);
-  const [listLoading, setListLoading] = useState([false]);
+  const [listLoading, setListLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [workId, setWorkId] = useState();
-  const [title, setTitle] = useState('');
-  const [sortCode, setSortCode] = useState('');
+  const [chapterId, setChapterId] = useState();
+  const [workId, setWorkId] = useState(1);
+  const [content, setContent] = useState('');
+  const [note, setNote] = useState('');
+  const [serial, setSerial] = useState(0);
   const [statusCheck, setStatusCheck] = useState(false);
   const [updateCount, setUpdateCount] = useState(0);
   const [updateMessage, setUpdateMessage] = useState(null);
-  const [genreData, setGenreData] = useState([]);
-  const [genreLoading, setGenreLoading] = useState([false]);
-  const [topicData, setTopicData] = useState([]);
-  const [topicLoading, setTopicLoading] = useState([false]);
-  const [authorData, setAuthorData] = useState([]);
-  const [authorLoading, setAuthorLoading] = useState([false]);
-  const [authorId, setAuthorId] = useState("1");
-  const [genreId, setGenreId] = useState("1");
-  const [topicId, setTopicId] = useState("1");
-  const [signature, setSignature] = useState('');  
-  const [publishedYear, setPublishedYear] = useState('');      
-  const [notes, setNotes] = useState('');   
+  const [workData, setWorkData] = useState([]);
+  const [workLoading, setWorkLoading] = useState(false);
 
   const sendPutRequest = async (newData) => {
     
 
     try {
-      const resp = await axios.put(`${WORKS_URL}/${workId}`, newData);
+      const resp = await axios.put(`${CHAPTERS_URL}/${chapterId}`, newData);
       console.log(resp.data);
       setUpdateMessage('Data sucessfully written to the database!');   
       setUpdateCount(updateCount + 1);
@@ -264,14 +248,10 @@ const WorkEditComponent = () => {
     
 
     const newData = {
-        title: title,
-        sort_code: sortCode,
-        author_id: parseInt(authorId),
-        genre_id: parseInt(genreId),
-        topic_id: parseInt(topicId),
-        published_year: parseInt(publishedYear),
-        notes: notes,
-        signature: signature,
+        work_id: workId,
+        content: content,
+        note: note,
+        serial: serial,
         status: statusCheck ? 1 : 0
       };
       
@@ -283,17 +263,13 @@ const WorkEditComponent = () => {
 
   const tableClick = (selectId) => {
     console.log('user select id: ', selectId);
-    setWorkId(selectId);
+    setChapterId(selectId);
     listData.forEach(item =>{
       if (item.id === selectId) {
-        setTitle(item.title);
-        setSortCode(item.sort_code);
-        setAuthorId(String(item.author_id))
-        setGenreId(String(item.genre_id))
-        setTopicId(String(item.topic_id))
-        setSignature(item.signature);
-        setPublishedYear(String(item.published_year));
-        setNotes(item.notes);
+        setWorkId(item.work_id);
+        setContent(item.content);
+        setNote(item.note);
+        setSerial(item.serial);
         setStatusCheck(item.status === 0 ? false : true);
         setUpdateMessage(null);
 
@@ -304,11 +280,11 @@ const WorkEditComponent = () => {
 
   useEffect(() => {
 
-    const fetchWorks = async () => {          
+    const fetchChapters = async () => {          
         setListLoading(true);
   
       try {
-          const result = await axios.get(WORKS_URL);
+          const result = await axios.get(CHAPTERS_URL);
           console.log(result.data);
           setListData(result.data);
           setListLoading(false);
@@ -322,14 +298,14 @@ const WorkEditComponent = () => {
       };
 
 
-    const fetchAuthors = async () => {          
-      setAuthorLoading(true);
+    const fetchWorks = async () => {          
+      setWorkLoading(true);
 
     try {
-        const result = await axios.get(AUTHORS_URL);
+        const result = await axios.get(WORKS_URL);
         console.log(result.data);
-        setAuthorData(result.data);
-        setAuthorLoading(false);
+        setWorkData(result.data);
+        setWorkLoading(false);
         
       }     
     catch (error) {
@@ -339,119 +315,62 @@ const WorkEditComponent = () => {
  
     };
 
-    const fetchGenres = async () => {          
-      setGenreLoading(true);
-
-    try {
-        const result = await axios.get(GENRES_URL);
-        //console.log(result.data);
-        setGenreData(result.data);
-        setGenreLoading(false);
-        
-      }     
-    catch (error) {
-        setIsError(true);
-        console.log('error:', error);
-      }
- 
-    };
-    const fetchTopics = async () => {          
-      setTopicLoading(true);
-
-    try {
-        const result = await axios.get(TOPICS_URL);
-        //console.log(result.data);
-        setTopicData(result.data);
-        setTopicLoading(false);
-        
-      }     
-    catch (error) {
-        setIsError(true);
-        console.log('error:', error);
-      }
- 
-    };        
     fetchWorks();
-    fetchAuthors();
-    fetchGenres();
-    fetchTopics();
+    fetchChapters();
 
-  }, []);  
+  }, [updateCount]);  
   
 
     return (
       <Fragment>
         {isError && <div>Something went wrong when loading API data ...</div>}
-        {listLoading | authorLoading | genreLoading | topicLoading  ? <div>Loading</div> : (
+        {listLoading | workLoading   ? <div>Loading</div> : (
       <Styles>
         <div className="grid-row">
           <div className="grid-column-large"><DataTable data={listData} onChange={tableClick}/></div>
           <div className="grid-column-small">
             <form className="data-form">
              
-              <input 
-                type="text" 
-                id="title"  
-                placeholder="title"
-                value={title}
-                onChange={(event)=>setTitle(event.target.value)}
-              
-              />
-             
-              <input 
-                type="text" 
-                id="sort_code"  
-                placeholder="sort code"
-                value={sortCode}
-                onChange={(event)=>setSortCode(event.target.value)}
-              
-              />
 
-            <select id="author_id" 
-                value={authorId} 
-                onChange={(event)=>setAuthorId(event.target.value)}>
-                {authorData.map(item=>{
-                return <option value={item.id}>{item.id}-{item.name}</option>
+
+
+            <select id="work_id" 
+                value={workId} 
+                onChange={(event)=>setWorkId(event.target.value)}>
+                {workData.map(item=>{
+                return <option value={item.id}>{item.id}-{item.title} ({item.signature}) </option>
                 })}
             </select>           
 
-            <select id="genre_id" value={genreId} onChange={(event)=>setGenreId(event.target.value)}>
-                {genreData.map(item=>{
-                    return <option value={item.id}>{item.id}-{item.description}</option>
-                })}
-            </select>
-            <select id="topic_id" value={topicId} onChange={(event)=>setTopicId(event.target.value)}>
-                {topicData.map(item=>{
-                    return <option value={item.id}>{item.id}-{item.description}</option>
-                })}
-            </select>
-
 
             <input 
                 type="text" 
-                id="signature"  
-                placeholder="signature"
-                value={signature}
-                onChange={(event)=>setSignature(event.target.value)}
-              
-              />
-            <input 
-                type="text" 
-                id="published_year"  
-                placeholder="published year"
-                value={publishedYear}
-                onChange={(event)=>setPublishedYear(event.target.value)}
+                id="note"  
+                placeholder="note"
+                value={note}
+                onChange={(event)=>setNote(event.target.value)}
               
               />
 
             <input 
                 type="text" 
-                id="notes"  
-                placeholder="notes"
-                value={notes}
-                onChange={(event)=>setNotes(event.target.value)}
+                id="serial"  
+                placeholder="serial"
+                value={serial}
+                onChange={(event)=>setSerial(event.target.value)}
               
               />              
+
+            <textarea                 
+                id="content"  
+                rows="8"
+                placeholder="content"
+                value={content}
+                onChange={(event)=>setContent(event.target.value)}
+              
+              />
+             
+
 
               <label className="check-box">Disabled
                 <input type="checkbox"  name="status"  checked={statusCheck}
@@ -484,4 +403,4 @@ const WorkEditComponent = () => {
     );
   };
 
-  export default WorkEditComponent;
+  export default ChapterEditComponent;

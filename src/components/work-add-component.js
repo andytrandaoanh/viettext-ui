@@ -220,7 +220,7 @@ const WorkAddComponent = () => {
   const [genreId, setGenreId] = useState("1");
   const [topicId, setTopicId] = useState("1");
   const [signature, setSignature] = useState('');  
-  const [publishedYear, setPublishedYear] = useState('');      
+  const [publishedYear, setPublishedYear] = useState('2021');      
   const [notes, setNotes] = useState('');      
 
   const sendPostRequest = async (newData) => {
