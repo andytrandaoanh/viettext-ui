@@ -110,7 +110,7 @@ export default function TopAppBar() {
 
       if (event.key === 'Enter') {
           //console.log({'search string': searchString});         
-          history.push(`/terms/search/${searchString}`);
+          history.push(`/chaptersearch/${searchString}`);
           event.preventDefault();
       }
   } 

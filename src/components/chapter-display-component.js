@@ -91,7 +91,7 @@ export default function ChapterDisplayComponent(props) {
       {isWorkLoading | isChapterLoading ? <div>Loading...</div> :
       <Fragment>
       <CssBaseline />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
       <Styles>
         <Typography className='title-text' variant="h4"  gutterBottom>
           {work.title}
