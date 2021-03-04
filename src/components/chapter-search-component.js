@@ -107,7 +107,7 @@ export default function ChapterSearchComponent (props) {
 
 				return(
 				<div>	
-					<Typography className='title-text'>{chapter.title} - {chapter.signature} - {chapter.note}</Typography>
+					<Typography className='title-text'>{chapter.title} - {chapter.signature} - {chapter.notes}</Typography>
 					<TextBlock key={chapter.id} data={chapter.content} keyword={props.query}>
 					</TextBlock>
 				</div>

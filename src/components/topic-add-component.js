@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import { TOPICS_URL } from './api-config.js';
 import styled from 'styled-components';
-
+import {convertSortCode} from './language-functions';
 
 const Styles = styled.div`
 .container {
@@ -72,11 +72,11 @@ input[type=text], select, textarea{
 
 
 .btn-small {
-  background-color: #3f51b5; 
+  background-color: #47d147; 
   border: none; 
   color: white; 
   padding: 5px 10px; 
-  font-size: 14px; 
+  font-size: 12px; 
   cursor: pointer; 
   border-radius: 3px;
   width: 80px;
@@ -86,7 +86,7 @@ input[type=text], select, textarea{
 
 
 .btn-small:hover {
-  background-color: #757de8;
+  background-color: #70db70;
 }
 
 .radio-box {
@@ -243,7 +243,10 @@ const TopicAddComponent = () => {
     
       };	
 
-      
+    const handleConvert = (event) =>{
+      event.preventDefault();
+      setSortCode(convertSortCode(description));
+    }
 
     return (
       <Styles>
@@ -261,6 +264,9 @@ const TopicAddComponent = () => {
               value={description} 
               onChange={(event)=>setDescription(event.target.value)}
               />
+            <button
+              className="btn-small" 
+              onClick={(event)=>handleConvert(event)}>Convert</button>
           </div>
         </div>
    
