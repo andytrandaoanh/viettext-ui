@@ -235,6 +235,7 @@ const ChapterEditComponent = (props) => {
           setContent(result.data.content)
           setNote(result.data.note)
           setListLoading(false);
+          setSerial(result.data.serial);
           
         }     
       catch (error) {

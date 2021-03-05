@@ -13,6 +13,8 @@ import AuthorListPage from '../pages/author-list-page';
 import WorkAddPage from '../pages/work-add-page';
 import WorkEditPage from '../pages/work-edit-page';
 import WorkListPage from '../pages/work-list-page';
+import WorkRecentPage from '../pages/work-recent-page';
+
 
 export default function RoutingComponent()  {
     
@@ -29,6 +31,7 @@ export default function RoutingComponent()  {
         <Route path="/workadd/:id" component={WorkAddPage} />
         <Route path="/workedit/:id" component={WorkEditPage} />
         <Route path="/worklist/:id" component={WorkListPage} />
+        <Route path="/workrecents" component={WorkRecentPage} />
         <Route path="/worksbyauthor/:id" component={WorkAuthorPage} />
         <Route path="/workcontent/:id" component={WorkContentPage} />
   

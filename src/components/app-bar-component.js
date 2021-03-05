@@ -22,6 +22,7 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
 import PagesIcon from '@material-ui/icons/Pages';
 import DescriptionIcon from '@material-ui/icons/Description';
+import ViewListIcon from '@material-ui/icons/ViewList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -133,6 +134,11 @@ export default function TopAppBar() {
       </List>
       <Divider />
       <List>
+
+      <ListItem button key="menu-item-recent-works" component={RouterLink} to="/workrecents">
+              <ListItemIcon><ViewListIcon /></ListItemIcon>
+              <ListItemText primary="Recent Works" />
+      </ListItem>  
 
       <ListItem button key="menu-item-list-authors" component={RouterLink} to="/authorslist">
               <ListItemIcon><PeopleAltIcon /></ListItemIcon>

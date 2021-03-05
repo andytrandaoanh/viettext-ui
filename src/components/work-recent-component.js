@@ -1,6 +1,6 @@
 import React, { Fragment,  useState, useEffect } from 'react';
 import axios from 'axios';
-import { CHAPTERS_URL } from './api-config.js';
+import { AUTHORS_URL, WORKS_URL } from './api-config.js';
 import styled from 'styled-components';
 import moment from 'moment';
 import { useHistory } from "react-router-dom";
@@ -66,14 +66,24 @@ table.data-grid tr:nth-child(even) {
 
 
 
-export default function WorkListComponent(props)  {
+export default function WorkListComponent()  {
   const history = useHistory();
   const [listData, setListData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const handleEdit = (event, id)=>{
-    history.push(`/chapteredit/${id}`);
+    history.push(`/workedit/${id}`);
+    event.preventDefault();
+  }
+
+  const handleAdd = (event, id)=>{
+    history.push(`/chapteradd/${id}`);
+    event.preventDefault();
+  }
+
+  const handleList = (event, id)=>{
+    history.push(`/chapterlist/${id}`);
     event.preventDefault();
   }
 
@@ -83,7 +93,7 @@ export default function WorkListComponent(props)  {
       setIsLoading(true);
 
     try {
-        const result = await axios.get(`${CHAPTERS_URL}/search?workid=${props.workId}`);
+        const result = await axios.get(`${WORKS_URL}/search?recentupdate=yes`);
         console.log(result.data);
         setListData(result.data);
         setIsLoading(false);
@@ -111,13 +121,14 @@ export default function WorkListComponent(props)  {
      <thead>
      <tr>
       <th>ID</th>
-       <th>Work Title</th>
-       <th>Chapter Title</th>
-       <th>Content</th>       
-       <th>Serial</th>
-       <th>Status</th>
+       <th>Title</th>
+       <th>Publisher</th>
+       <th>Genre</th>
+       <th>Author</th>
        <th>Date</th>
-       <th>Action</th>
+       <th>Add</th>
+       <th>Edit</th>
+ 
      
      </tr>
      </thead>
@@ -127,13 +138,12 @@ export default function WorkListComponent(props)  {
       <tr>
         <td>{row.id}</td>
         <td>{row.title}</td>
-        <td>{row.note}</td>
-        <td>{row.content.substring(0, 20)}...</td>        
-        <td>{row.serial}</td>
-        <td>{row.status}</td>
+        <td>{row.author_name}</td>
+        <td>{row.genre_name}</td>
+        <td>{row.signature}</td>
         <td>{moment(row.created_at).format('DD/MM/YYYY')}</td>
-        <td><button className="data-button" onClick={(event)=>handleEdit(event, row.id)}>Edit Chapter</button>
-        </td>
+        <td><button className="data-button" onClick={(event)=>handleAdd(event, row.id)}>Add Chapter</button></td>
+        <td><button className="data-button" onClick={(event)=>handleList(event, row.id)}>List Chapters</button></td>
 
       </tr>
        ))

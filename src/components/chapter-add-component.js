@@ -209,7 +209,7 @@ const ChapterAddComponent = (props) => {
   const [workId, setWorkId] = useState(props.workId);  
   const [content, setContent] = useState('');  
   const [note, setNote] = useState('');  
-  const [serial, setSerial] = useState(0);  
+  const [serial, setSerial] = useState(1);  
   const [isError, setIsError] = useState(false);
   const [workLoading, setWorkLoading] = useState(false);
   const [workData, setWorkData] = useState([]);
@@ -250,7 +250,14 @@ const ChapterAddComponent = (props) => {
     
       };	
 
-      
+      const handleNext = (event) => {
+        event.preventDefault();
+        setUpdateMessage(null);
+        setSerial(serial + 1);
+        setContent('');
+        setNote('');
+      };	
+
       useEffect(() => {
 
 
@@ -348,6 +355,11 @@ const ChapterAddComponent = (props) => {
               type="submit"
               onClick = {(event)=>handleSubmit(event)}
               >Submit</button>
+                          <button 
+              className="btn-red" 
+              type="submit"
+              onClick = {(event)=>handleNext(event)}
+              >Next</button>
         </div>
 
         
