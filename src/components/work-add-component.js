@@ -205,7 +205,7 @@ input[type=text], select, textarea{
 
 
 
-const WorkAddComponent = () => {
+const WorkAddComponent = (props) => {
   const [title, setTitle] = useState('');  
   const [sortCode, setSortCode] = useState('');  
   const [updateMessage, setUpdateMessage] = useState(null);
@@ -216,7 +216,7 @@ const WorkAddComponent = () => {
   const [authorData, setAuthorData] = useState([]);
   const [authorLoading, setAuthorLoading] = useState([false]);
   const [isError, setIsError] = useState(false);
-  const [authorId, setAuthorId] = useState("1");
+  const [authorId, setAuthorId] = useState(props.authorId);
   const [genreId, setGenreId] = useState("1");
   const [topicId, setTopicId] = useState("1");
   const [signature, setSignature] = useState('');  

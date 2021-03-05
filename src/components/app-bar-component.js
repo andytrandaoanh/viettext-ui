@@ -18,7 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import MenuBookIcon from '@material-ui/icons/MenuBook';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
 import PagesIcon from '@material-ui/icons/Pages';
 import DescriptionIcon from '@material-ui/icons/Description';
@@ -133,18 +133,15 @@ export default function TopAppBar() {
       </List>
       <Divider />
       <List>
-        <ListItem button key="menu-item-chapters" component={RouterLink} to="/chapters">
-              <ListItemIcon><DescriptionIcon /></ListItemIcon>
-              <ListItemText primary="Maintain Chapters" />
-        </ListItem>
-      <ListItem button key="menu-item-works" component={RouterLink} to="/works">
-              <ListItemIcon><MenuBookIcon /></ListItemIcon>
-              <ListItemText primary="Maintain Works" />
+
+      <ListItem button key="menu-item-list-authors" component={RouterLink} to="/authorslist">
+              <ListItemIcon><PeopleAltIcon /></ListItemIcon>
+              <ListItemText primary="List Authors" />
         </ListItem>    
         <Divider />
                
         <ListItem button key="menu-item-authors" component={RouterLink} to="/authors">
-              <ListItemIcon><PeopleAltIcon /></ListItemIcon>
+              <ListItemIcon><PersonAddIcon /></ListItemIcon>
               <ListItemText primary="Maintain Authors" />
         </ListItem>   
         <ListItem button key="menu-item-genres" component={RouterLink} to="/genres">

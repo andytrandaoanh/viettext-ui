@@ -168,59 +168,8 @@ form.data-form input[type=text], select {
 `
 
 
-
-const DataTable = ({data, onChange}) => {
-
-const handleClick = (event, id)=>{  
-  onChange(id);
-}
-
- return(
-   <table className="data-grid">
-     <thead>
-     <tr>
-       <th>ID</th>
-       <th>Title</th>
-       <th>Author</th>
-       <th>Genre</th>
-       <th>Topic</th>
-       <th>Signature</th>
-       <th>Published</th>
-       <th>Notes</th>
-       <th>Status</th>
-       <th>Date</th>
-       <th>Action</th>
-     
-     </tr>
-     </thead>
-     <tbody>
-
-     {data.map(row =>(
-      <tr>
-        <td>{row.id}</td>
-        <td>{row.title}</td>        
-        <td>{row.author_id}</td>
-        <td>{row.genre_id}</td>
-        <td>{row.topic_id}</td>
-        <td>{row.signature}</td>
-        <td>{row.published_year}</td>
-        <td>{row.notes}</td>
-        <td>{row.status}</td>
-        <td>{moment(row.created_at).format('DD/MM/YYYY')}</td>
-        <td><button className="data-button" onClick={(event)=>handleClick(event, row.id)}><AiFillEdit /></button></td>
-      </tr>
-       ))
-     }  
-     
-     </tbody>
-   </table>
- )
-}
-
-
-const WorkEditComponent = () => {
-  const [listData, setListData] = useState([]);
-  const [listLoading, setListLoading] = useState([false]);
+const WorkEditComponent = (props) => {  
+  const [listLoading, setListLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [workId, setWorkId] = useState();
   const [title, setTitle] = useState('');
@@ -229,11 +178,11 @@ const WorkEditComponent = () => {
   const [updateCount, setUpdateCount] = useState(0);
   const [updateMessage, setUpdateMessage] = useState(null);
   const [genreData, setGenreData] = useState([]);
-  const [genreLoading, setGenreLoading] = useState([false]);
+  const [genreLoading, setGenreLoading] = useState(false);
   const [topicData, setTopicData] = useState([]);
-  const [topicLoading, setTopicLoading] = useState([false]);
+  const [topicLoading, setTopicLoading] = useState(false);
   const [authorData, setAuthorData] = useState([]);
-  const [authorLoading, setAuthorLoading] = useState([false]);
+  const [authorLoading, setAuthorLoading] = useState(false);
   const [authorId, setAuthorId] = useState("1");
   const [genreId, setGenreId] = useState("1");
   const [topicId, setTopicId] = useState("1");
@@ -281,36 +230,26 @@ const WorkEditComponent = () => {
   }
 
 
-  const tableClick = (selectId) => {
-    console.log('user select id: ', selectId);
-    setWorkId(selectId);
-    listData.forEach(item =>{
-      if (item.id === selectId) {
-        setTitle(item.title);
-        setSortCode(item.sort_code);
-        setAuthorId(String(item.author_id))
-        setGenreId(String(item.genre_id))
-        setTopicId(String(item.topic_id))
-        setSignature(item.signature);
-        setPublishedYear(String(item.published_year));
-        setNotes(item.notes);
-        setStatusCheck(item.status === 0 ? false : true);
-        setUpdateMessage(null);
 
-        }
-      }
-    )
-  }
 
   useEffect(() => {
 
-    const fetchWorks = async () => {          
+    const fetchWork = async () => {          
         setListLoading(true);
   
       try {
-          const result = await axios.get(WORKS_URL);
+          const result = await axios.get(`${WORKS_URL}/${props.workId}`);
           console.log(result.data);
-          setListData(result.data);
+          setWorkId(result.data.id);
+          setTitle(result.data.title);
+          setSortCode(result.data.sort_code);
+          setAuthorId(result.data.author_id);
+          setGenreId(result.data.genre_id);
+          setTopicId(result.data.topic_id);
+          setSignature(result.data.signature);
+          setPublishedYear(result.data.published_year);
+          setNotes(result.data.notes);
+          setStatusCheck(result.data.status === 1 ? true : false);
           setListLoading(false);
           
         }     
@@ -327,7 +266,7 @@ const WorkEditComponent = () => {
 
     try {
         const result = await axios.get(AUTHORS_URL);
-        console.log(result.data);
+        //console.log(result.data);
         setAuthorData(result.data);
         setAuthorLoading(false);
         
@@ -371,7 +310,7 @@ const WorkEditComponent = () => {
       }
  
     };        
-    fetchWorks();
+    fetchWork();
     fetchAuthors();
     fetchGenres();
     fetchTopics();
@@ -384,9 +323,7 @@ const WorkEditComponent = () => {
         {isError && <div>Something went wrong when loading API data ...</div>}
         {listLoading | authorLoading | genreLoading | topicLoading  ? <div>Loading</div> : (
       <Styles>
-        <div className="grid-row">
-          <div className="grid-column-large"><DataTable data={listData} onChange={tableClick}/></div>
-          <div className="grid-column-small">
+
             <form className="data-form">
              
               <input 
@@ -475,8 +412,7 @@ const WorkEditComponent = () => {
               <div className="message-box">{updateMessage}</div>
             </form>
 
-          </div>
-        </div> 
+
       </Styles>
       )}
       </Fragment>

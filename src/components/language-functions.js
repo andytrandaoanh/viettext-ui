@@ -1,6 +1,17 @@
 function convertChar(inputChar){
     const TONE_DELIMITER =  "#TONE#";
     switch(inputChar) {
+      
+        case 65:
+          return "A1"      
+        case 68:
+          return "D1"      
+        case 69:
+          return "E1"      
+        case 79:
+          return "O1"      
+        case 85:
+            return "U1"      
         case 97:
           return "a1"
         case 100:
@@ -11,6 +22,16 @@ function convertChar(inputChar){
             return "o1"
         case 117:
           return "u1"
+        case 193:
+            return "A1" + TONE_DELIMITER + "5"
+        case 194:
+            return "A3"  
+        case 202:
+            return "E2"  
+        case 212:
+            return "O2"  
+        case 221:
+              return "Y"  + TONE_DELIMITER + "5"
         case 224:
             return "a1" + TONE_DELIMITER + "2"
         case 225:
@@ -43,7 +64,9 @@ function convertChar(inputChar){
             return "u1" + TONE_DELIMITER + "5"
         case 253:
           return "y" + TONE_DELIMITER + "5"
-        case 259:
+        case 258:
+            return "A2" 
+       case 259:
             return "a2" 
         case 272:
           return "D2" 
@@ -53,8 +76,12 @@ function convertChar(inputChar){
           return "i" + TONE_DELIMITER + "4"
         case 361:
             return "u1" + TONE_DELIMITER + "4"
+        case 416:
+          return "O3" 
         case 417:
           return "o3" 
+        case 431:
+            return "U2"
         case 432:
             return "u2"
         case 7841:
@@ -143,6 +170,8 @@ function convertChar(inputChar){
           return "y" + TONE_DELIMITER + "2"
         case 7925:
             return "y" + TONE_DELIMITER + "6"
+        case 7926:
+              return "Y" + TONE_DELIMITER + "3"
         case 7927:
           return  "y" + TONE_DELIMITER + "3"
         case 7929:
@@ -150,13 +179,14 @@ function convertChar(inputChar){
                
         default:
             return String.fromCharCode(inputChar);
+            //return String(inputChar);
       } 
 }
 
 function convertWord(inputWord){
     let output = "";
     let chars = "";
-    let tone = "";
+    let tone = "1";
     const DELIM =  "#TONE#";
 
     for (let i = 0; i < inputWord.length; i++) {
@@ -170,8 +200,8 @@ function convertWord(inputWord){
         else chars += compound[0];
 
     }
-    if (tone === "") output = chars;
-    else output = chars + "_" + tone;
+    
+    output = chars + "_" + tone;
     return output;
     
 }

@@ -205,8 +205,8 @@ input[type=text], select, textarea {
 
 
 
-const ChapterAddComponent = () => {
-  const [workId, setWorkId] = useState(1);  
+const ChapterAddComponent = (props) => {
+  const [workId, setWorkId] = useState(props.workId);  
   const [content, setContent] = useState('');  
   const [note, setNote] = useState('');  
   const [serial, setSerial] = useState(0);  
@@ -245,7 +245,7 @@ const ChapterAddComponent = () => {
           serial: parseInt(serial)
         };
         
-        console.log(newData);
+        console.log('new data', newData);
         sendPostRequest(newData);
     
       };	
@@ -317,7 +317,7 @@ const ChapterAddComponent = () => {
         </div>
         <div className="row">
           <div className="col-25">
-            <label>Note</label>
+            <label>Chapter Title</label>
           </div>
           <div className="col-75">
             <input 

@@ -169,48 +169,7 @@ form.data-form input[type=text], select , textarea{
 
 
 
-const DataTable = ({data, onChange}) => {
-
-const handleClick = (event, id)=>{  
-  onChange(id);
-}
-
- return(
-   <table className="data-grid">
-     <thead>
-     <tr>
-       <th>ID</th>
-       <th>Work</th>
-       <th>Note</th>
-       <th>Serial</th>
-       <th>Status</th>
-       <th>Date</th>
-       <th>Action</th>
-     
-     </tr>
-     </thead>
-     <tbody>
-
-     {data.map(row =>(
-      <tr>
-        <td>{row.id}</td>
-        <td>{row.work_id}</td>        
-        <td>{row.note}</td>
-        <td>{row.serial}</td>
-        <td>{row.status}</td>
-        <td>{moment(row.created_at).format('DD/MM/YYYY')}</td>
-        <td><button className="data-button" onClick={(event)=>handleClick(event, row.id)}><AiFillEdit /></button></td>
-      </tr>
-       ))
-     }  
-     
-     </tbody>
-   </table>
- )
-}
-
-
-const ChapterEditComponent = () => {
+const ChapterEditComponent = (props) => {
   const [listData, setListData] = useState([]);
   const [listLoading, setListLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -261,32 +220,20 @@ const ChapterEditComponent = () => {
   }
 
 
-  const tableClick = (selectId) => {
-    console.log('user select id: ', selectId);
-    setChapterId(selectId);
-    listData.forEach(item =>{
-      if (item.id === selectId) {
-        setWorkId(item.work_id);
-        setContent(item.content);
-        setNote(item.note);
-        setSerial(item.serial);
-        setStatusCheck(item.status === 0 ? false : true);
-        setUpdateMessage(null);
-
-        }
-      }
-    )
-  }
 
   useEffect(() => {
 
-    const fetchChapters = async () => {          
+    const fetchChapter = async () => {          
         setListLoading(true);
   
       try {
-          const result = await axios.get(CHAPTERS_URL);
+          const result = await axios.get(`${CHAPTERS_URL}/${props.chapterId}`);
           console.log(result.data);
           setListData(result.data);
+          setChapterId(props.chapterId);
+          setWorkId(result.data.work_id)
+          setContent(result.data.content)
+          setNote(result.data.note)
           setListLoading(false);
           
         }     
@@ -303,7 +250,7 @@ const ChapterEditComponent = () => {
 
     try {
         const result = await axios.get(WORKS_URL);
-        console.log(result.data);
+        //console.log(result.data);
         setWorkData(result.data);
         setWorkLoading(false);
         
@@ -316,9 +263,9 @@ const ChapterEditComponent = () => {
     };
 
     fetchWorks();
-    fetchChapters();
+    fetchChapter();
 
-  }, [updateCount]);  
+  }, []);  
   
 
     return (
@@ -326,10 +273,7 @@ const ChapterEditComponent = () => {
         {isError && <div>Something went wrong when loading API data ...</div>}
         {listLoading | workLoading   ? <div>Loading</div> : (
       <Styles>
-        <div className="grid-row">
-          <div className="grid-column-large"><DataTable data={listData} onChange={tableClick}/></div>
-          <div className="grid-column-small">
-            <form className="data-form">
+             <form className="data-form">
              
 
 
@@ -394,8 +338,7 @@ const ChapterEditComponent = () => {
               <div className="message-box">{updateMessage}</div>
             </form>
 
-          </div>
-        </div> 
+   
       </Styles>
       )}
       </Fragment>
