@@ -12,8 +12,13 @@ const Styles = styled.div`
   margin: 20px 0px;
 }
 
+.chapter-title {
+  margin-top: 40px;
+}
+
+
 .text-block {
-  margin: 40px 0px;
+  margin: 20px 0px;
 }
 
 .text-para {
@@ -104,8 +109,13 @@ export default function ChapterDisplayComponent(props) {
       </Typography>
       
       {chapterData.map(chapter =>(
+        <div>
+             <Typography className="chapter-title" variant="h5" gutterBottom>
+             {chapter.note}
+            </Typography>
             <TextBlock key={chapter.id} data={chapter.content}>
             </TextBlock>
+          </div>
       ))}
       </Styles>
       </Container>

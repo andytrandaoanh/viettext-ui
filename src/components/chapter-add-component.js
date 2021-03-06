@@ -253,7 +253,7 @@ const ChapterAddComponent = (props) => {
       const handleNext = (event) => {
         event.preventDefault();
         setUpdateMessage(null);
-        setSerial(serial + 1);
+        setSerial(parseInt(serial) + 1);
         setContent('');
         setNote('');
       };	
@@ -309,19 +309,7 @@ const ChapterAddComponent = (props) => {
           </div>
 
         </div>    
-        <div className="row">
-          <div className="col-25">
-            <label>Content</label>
-          </div>
-          <div className="col-75">
-            <textarea               
-              id = "content"
-              rows = "8"
-              value={content} 
-              onChange={(event)=>setContent(event.target.value)}
-              />
-          </div>
-        </div>
+
         <div className="row">
           <div className="col-25">
             <label>Chapter Title</label>
@@ -335,6 +323,21 @@ const ChapterAddComponent = (props) => {
               />
           </div>
         </div>
+        
+        <div className="row">
+          <div className="col-25">
+            <label>Content</label>
+          </div>
+          <div className="col-75">
+            <textarea               
+              id = "content"
+              rows = "8"
+              value={content} 
+              onChange={(event)=>setContent(event.target.value)}
+              />
+          </div>
+        </div>
+
 
         <div className="row">
           <div className="col-25">
