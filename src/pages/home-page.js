@@ -13,6 +13,7 @@ export default function HomePage () {
         <Tabs>
           <TabList>
             <Tab>Recent Works</Tab>
+            <Tab>Authors</Tab>
             <Tab>Publishers</Tab>
 
           </TabList>
@@ -22,9 +23,11 @@ export default function HomePage () {
           </TabPanel>
           
           <TabPanel>
-            <AuthorCardComponent />
+            <AuthorCardComponent type={0} />
           </TabPanel>
-
+          <TabPanel>
+            <AuthorCardComponent type={1} />
+          </TabPanel>
         </Tabs>
 
     )

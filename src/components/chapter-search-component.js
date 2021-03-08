@@ -5,7 +5,7 @@ import Alert from '@material-ui/lab/Alert';
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-
+import TextHighlight from './text-highlight-component';
 
 
 const Styles = styled.div`
@@ -21,9 +21,14 @@ const Styles = styled.div`
   margin: 20px 0px;
 }
 
-
+.focus {
+	font-weight: bold;
+}
 
 `
+
+
+
 const Highlighted = ({text = '', highlight = ''}) => {
 	if (!highlight.trim()) {
 	  return <span>{text}</span>
@@ -47,7 +52,10 @@ function TextBlock (props) {
       <div className='text-block'>
       {parts.map(part=>{
 		if (part.includes(props.keyword)) {
-			return  <Highlighted text={part} highlight={props.keyword} />
+			//return  <Highlighted text={part} highlight={props.keyword} />
+			return  <TextHighlight text={part} highlight={props.keyword} />
+
+			
 		}
         
       })}

@@ -14,6 +14,7 @@ const Styles = styled.div`
 
 .chapter-title {
   margin-top: 40px;
+  color: #00a152;
 }
 
 

@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function AuthorCards() {
+export default function AuthorCards(props) {
   const classes = useStyles();
   
   const [authorData, setAuthorData] = useState([]);
@@ -45,7 +45,7 @@ export default function AuthorCards() {
       setIsLoading(true);
 
       try {
-        const result = await axios(AUTHORS_URL);        
+        const result = await axios(`${AUTHORS_URL}/search?type=${props.type}`);        
         setAuthorData(result.data);        
         //console.log('result', result);
         setIsLoading(false);
