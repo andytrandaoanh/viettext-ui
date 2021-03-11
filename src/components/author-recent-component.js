@@ -82,20 +82,24 @@ table.data-grid tr:nth-child(even) {
 
 
 
-export default function AuthorListComponent(props)  {
+export default function WorkListComponent()  {
   const history = useHistory();
   const [listData, setListData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
+  const handleEdit = (event, id)=>{
+    history.push(`/workedit/${id}`);
+    event.preventDefault();
+  }
 
-  const handleWorkAdd = (event, id)=>{
+  const handleAdd = (event, id)=>{
     history.push(`/workadd/${id}`);
     event.preventDefault();
   }
-  
-  const handleWorkList = (event, id)=>{
-    history.push(`/worksbyauthor/${id}`);
+
+  const handleList = (event, id)=>{
+    history.push(`/worklist/${id}`);
     event.preventDefault();
   }
 
@@ -105,7 +109,7 @@ export default function AuthorListComponent(props)  {
       setIsLoading(true);
 
     try {
-        const result = await axios.get(`${AUTHORS_URL}/search?type=${props.type}`);
+        const result = await axios.get(`${AUTHORS_URL}/search?recentupdate=yes`);
         console.log(result.data);
         setListData(result.data);
         setIsLoading(false);
@@ -135,11 +139,12 @@ export default function AuthorListComponent(props)  {
       <th>ID</th>
        <th>Name</th>
        <th>Type</th>
-       <th>Status</th>
+       <th>Status</th>       
        <th>Date</th>
        <th>Add</th>
        <th>List</th>
-
+       
+ 
      
      </tr>
      </thead>
@@ -150,14 +155,11 @@ export default function AuthorListComponent(props)  {
         <td>{row.id}</td>
         <td>{row.name}</td>
         <td>{row.type}</td>
-        <td>{row.status}</td>
+        <td>{row.status}</td>        
         <td>{moment(row.created_at).format('DD/MM/YYYY')}</td>
-        <td>
-          <button className="data-button" onClick={(event)=>handleWorkAdd(event, row.id)}>Add Work</button>
-        </td>        
-        <td>
-          <button className="list-button" onClick={(event)=>handleWorkList(event, row.id)}>List Works</button>
-        </td>
+        <td><button className="data-button" onClick={(event)=>handleAdd(event, row.id)}>Add Work</button></td>
+        <td><button className="list-button" onClick={(event)=>handleList(event, row.id)}>List Works</button></td>
+        
 
       </tr>
        ))

@@ -1,6 +1,6 @@
 import React, { Fragment,  useState, useEffect } from 'react';
 import axios from 'axios';
-import { AUTHORS_URL } from './api-config.js';
+import { WORKS_URL } from './api-config.js';
 import styled from 'styled-components';
 import moment from 'moment';
 import { useHistory } from "react-router-dom";
@@ -60,6 +60,7 @@ table.data-grid tr:nth-child(even) {
   background: orange;
 }
 
+
 .list-button {
   background-color: #1769aa; 
   border: none; 
@@ -82,22 +83,19 @@ table.data-grid tr:nth-child(even) {
 
 
 
-export default function AuthorListComponent(props)  {
+export default function WorkListComponent(props)  {
   const history = useHistory();
   const [listData, setListData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
 
-  const handleWorkAdd = (event, id)=>{
-    history.push(`/workadd/${id}`);
+
+  const handleDisplay = (event, id)=>{
+    history.push(`/workcontent/${id}`);
     event.preventDefault();
   }
-  
-  const handleWorkList = (event, id)=>{
-    history.push(`/worksbyauthor/${id}`);
-    event.preventDefault();
-  }
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -105,7 +103,7 @@ export default function AuthorListComponent(props)  {
       setIsLoading(true);
 
     try {
-        const result = await axios.get(`${AUTHORS_URL}/search?type=${props.type}`);
+        const result = await axios.get(`${WORKS_URL}/search?genreid=${props.genreId}`);
         console.log(result.data);
         setListData(result.data);
         setIsLoading(false);
@@ -133,13 +131,13 @@ export default function AuthorListComponent(props)  {
      <thead>
      <tr>
       <th>ID</th>
-       <th>Name</th>
-       <th>Type</th>
-       <th>Status</th>
+       <th>Title</th>
+       <th>Genre</th>
+       <th>Author</th>
+       <th>Notes</th>
+       <th>Year</th>
        <th>Date</th>
-       <th>Add</th>
-       <th>List</th>
-
+       <th>Work Actions</th>
      
      </tr>
      </thead>
@@ -148,15 +146,14 @@ export default function AuthorListComponent(props)  {
      {listData.map(row =>(
       <tr>
         <td>{row.id}</td>
-        <td>{row.name}</td>
-        <td>{row.type}</td>
-        <td>{row.status}</td>
+        <td>{row.title}</td>
+        <td>{row.genre_name}</td>
+        <td>{row.signature}</td>
+        <td>{row.notes}</td>
+        <td>{row.published_year}</td>
         <td>{moment(row.created_at).format('DD/MM/YYYY')}</td>
-        <td>
-          <button className="data-button" onClick={(event)=>handleWorkAdd(event, row.id)}>Add Work</button>
-        </td>        
-        <td>
-          <button className="list-button" onClick={(event)=>handleWorkList(event, row.id)}>List Works</button>
+        
+        <td><button className="list-button" onClick={(event)=>handleDisplay(event, row.id)}>Display Work</button>
         </td>
 
       </tr>

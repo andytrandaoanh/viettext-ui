@@ -21,8 +21,11 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
 import PagesIcon from '@material-ui/icons/Pages';
-import DescriptionIcon from '@material-ui/icons/Description';
 import ViewListIcon from '@material-ui/icons/ViewList';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import Tooltip from '@material-ui/core/Tooltip';
+import ChromeReaderModeIcon from '@material-ui/icons/ChromeReaderMode';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -140,12 +143,22 @@ export default function TopAppBar() {
               <ListItemText primary="Recent Works" />
       </ListItem>  
 
-      <ListItem button key="menu-item-list-authors" component={RouterLink} to="/authorslist">
+      <ListItem button key="menu-item-recent-authors" component={RouterLink} to="/authorrecents">
               <ListItemIcon><PeopleAltIcon /></ListItemIcon>
-              <ListItemText primary="List Authors" />
+              <ListItemText primary="Recent Authors" />
         </ListItem>    
         <Divider />
-               
+        <ListItem button key="menu-item-list-authors" component={RouterLink} to="/authorslist">
+              <ListItemIcon><PeopleAltIcon /></ListItemIcon>
+              <ListItemText primary="List Authors" />
+        </ListItem> 
+        <ListItem button key="menu-item-work-edits" component={RouterLink} to="/workedits">
+              <ListItemIcon><MenuBookIcon /></ListItemIcon>
+              <ListItemText primary="List Works" />
+        </ListItem> 
+
+        <Divider />
+
         <ListItem button key="menu-item-authors" component={RouterLink} to="/authors">
               <ListItemIcon><PersonAddIcon /></ListItemIcon>
               <ListItemText primary="Maintain Authors" />
@@ -200,7 +213,21 @@ export default function TopAppBar() {
             />
           </div>
         
+        <Tooltip title="List Works">
+          <IconButton
+              edge="end"
+              aria-label="work list"
+              color="inherit"
+              component={RouterLink} 
+              to="/worktype"
+            >
+              <ChromeReaderModeIcon />
+            </IconButton>
+          </Tooltip>
+        
+        
         </Toolbar>
+
         <Drawer anchor="left" open={showMenu} onClose = {()=>setShowMenu(false)}>
             {listMenuItems("left")}
         </Drawer>

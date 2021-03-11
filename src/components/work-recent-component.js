@@ -60,6 +60,22 @@ table.data-grid tr:nth-child(even) {
   background: orange;
 }
 
+.list-button {
+  background-color: #1769aa; 
+  border: none; 
+  color: white; 
+  padding: 5px 8px; 
+  font-size: 11px; 
+  cursor: pointer; 
+  border-radius: 3px;
+  margin: 0px 5px;
+}
+
+.list-button:hover{
+  background: #2196f3;
+}
+
+
 
 `
 
@@ -143,7 +159,7 @@ export default function WorkListComponent()  {
         <td>{row.signature}</td>
         <td>{moment(row.created_at).format('DD/MM/YYYY')}</td>
         <td><button className="data-button" onClick={(event)=>handleAdd(event, row.id)}>Add Chapter</button></td>
-        <td><button className="data-button" onClick={(event)=>handleList(event, row.id)}>List Chapters</button></td>
+        <td><button className="list-button" onClick={(event)=>handleList(event, row.id)}>List Chapters</button></td>
 
       </tr>
        ))
