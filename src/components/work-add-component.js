@@ -266,6 +266,18 @@ const WorkAddComponent = (props) => {
         event.preventDefault();
         setSortCode(convertSortCode(title));
      }  
+
+    const handleCombine = (event) =>{
+      event.preventDefault();
+      let authorName = '';
+      authorData.forEach(item =>{
+        if (item.id === parseInt(authorId) ) authorName = item.name;
+      })
+      setNotes(authorName + ' ' + publishedYear.toString());
+   }  
+
+
+
       useEffect(() => {
 
 
@@ -436,7 +448,7 @@ const WorkAddComponent = (props) => {
 
         <div className="row">
           <div className="col-25">
-            <label>Issue Date</label>
+            <label>Published Notes</label>
           </div>
           <div className="col-75">
             <input 
@@ -445,6 +457,10 @@ const WorkAddComponent = (props) => {
               value={notes} 
               onChange={(event)=>setNotes(event.target.value)}
               />
+
+            <button
+              className="btn-small" 
+              onClick={(event)=>handleCombine(event)}>Combine</button>
           </div>
         </div>
         <div className="submit-wrap">

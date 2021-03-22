@@ -144,6 +144,8 @@ export default function WorkListComponent()  {
        <th>Add</th>
        <th>List</th>
        
+       
+       
  
      
      </tr>
@@ -159,6 +161,7 @@ export default function WorkListComponent()  {
         <td>{moment(row.created_at).format('DD/MM/YYYY')}</td>
         <td><button className="data-button" onClick={(event)=>handleAdd(event, row.id)}>Add Work</button></td>
         <td><button className="list-button" onClick={(event)=>handleList(event, row.id)}>List Works</button></td>
+        
         
 
       </tr>

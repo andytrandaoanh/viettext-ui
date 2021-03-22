@@ -1,6 +1,6 @@
 import React, { Fragment,  useState, useEffect } from 'react';
 import axios from 'axios';
-import { AUTHORS_URL, WORKS_URL } from './api-config.js';
+import { WORKS_URL } from './api-config.js';
 import styled from 'styled-components';
 import moment from 'moment';
 import { useHistory } from "react-router-dom";
@@ -143,6 +143,7 @@ export default function WorkListComponent()  {
        <th>Author</th>
        <th>Date</th>
        <th>Add</th>
+       <th>List</th>
        <th>Edit</th>
  
      
@@ -160,6 +161,7 @@ export default function WorkListComponent()  {
         <td>{moment(row.created_at).format('DD/MM/YYYY')}</td>
         <td><button className="data-button" onClick={(event)=>handleAdd(event, row.id)}>Add Chapter</button></td>
         <td><button className="list-button" onClick={(event)=>handleList(event, row.id)}>List Chapters</button></td>
+        <td><button className="data-button" onClick={(event)=>handleEdit(event, row.id)}>Edit Work</button></td>
 
       </tr>
        ))

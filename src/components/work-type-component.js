@@ -117,7 +117,7 @@ export default function WorkListComponent(props)  {
     };
  
     fetchData();
-  }, []);  
+  }, [props.genreId]);  
 
   
   
