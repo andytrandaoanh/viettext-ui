@@ -10,6 +10,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
 import { WORKS_URL  } from './api-config.js';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import moment from 'moment';
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,7 +76,7 @@ export default function AuthorCards() {
             <Card className={classes.workcard}>
             <CardContent>
               <Typography className={classes.title} color="textSecondary" gutterBottom>
-                recently added work
+                added {moment(work.created_at).format('DD/MM/YYYY')}
               </Typography>
               <Typography variant="h5" component="h2">
                 {work.title}
